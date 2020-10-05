@@ -49,7 +49,7 @@ class BluetoothManager {
                 val scanFilter = ScanFilter.Builder()
                     .setServiceData(
                       ParcelUuid(UUID.fromString(CHIP_UUID)),
-                      null
+                      byteArrayOf(0, discriminator.toByte(), (discriminator shr 8).toByte())
                     )
                     .build()
                 val scanSettings = ScanSettings.Builder()
