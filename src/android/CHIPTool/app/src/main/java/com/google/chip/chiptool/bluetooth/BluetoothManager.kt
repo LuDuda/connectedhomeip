@@ -49,7 +49,7 @@ class BluetoothManager {
                 val scanFilter = ScanFilter.Builder()
                     .setServiceData(
                       ParcelUuid(UUID.fromString(CHIP_UUID)),
-                      discriminator.toByteArray(3)
+                      null
                     )
                     .build()
                 val scanSettings = ScanSettings.Builder()
@@ -93,7 +93,7 @@ class BluetoothManager {
             }
 
             Log.i(TAG, "Connecting")
-            val gatt = device.connectGatt(context, false, bluetoothGattCallback)
+            val gatt = device.connectGatt(context, false, bluetoothGattCallback, BluetoothDevice.TRANSPORT_LE)
             continuation.invokeOnCancellation { gatt.disconnect() }
         }
     }
