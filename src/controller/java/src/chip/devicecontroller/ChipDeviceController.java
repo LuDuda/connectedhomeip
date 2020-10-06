@@ -93,6 +93,17 @@ public class ChipDeviceController {
     completionListener.onSendMessageComplete(message);
   }
 
+  public void onCharacteristicChanged(BluetoothGatt gatt, String charId, byte[] value) {
+    int connId = AndroidChipStack.getInstance().getConnId(gatt);
+
+    if (connId <= 0) {
+      Log.e(TAG, "onCharacteristicChanged for non-active connection");
+      return;
+    }
+
+    handleIndicationReceived(connId, charId, value);
+  }
+
   public void onNotifyChipConnectionClosed(int connId) {
     // Clear connection state.
     AndroidChipStack.getInstance().removeConnection(connId);
@@ -144,6 +155,8 @@ public class ChipDeviceController {
   private native void beginSendMessage(long deviceControllerPtr, String message);
 
   private native void beginSendCommand(long deviceControllerPtr, ChipCommandType command);
+
+  private native void handleIndicationReceived(int conn, String charId, byte[] value);
 
   private native boolean disconnectDevice(long deviceControllerPtr);
 

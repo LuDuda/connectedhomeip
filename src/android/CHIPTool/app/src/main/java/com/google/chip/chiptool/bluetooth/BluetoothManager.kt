@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.BluetoothGatt
 import android.bluetooth.BluetoothGattCallback
+import android.bluetooth.BluetoothGattCharacteristic
 import android.bluetooth.BluetoothProfile
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanFilter
@@ -12,6 +13,7 @@ import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.os.ParcelUuid
 import android.util.Log
+import chip.devicecontroller.ChipDeviceController
 import java.util.UUID
 import kotlin.coroutines.resume
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -66,7 +68,7 @@ class BluetoothManager {
     /**
      * Connects to a [BluetoothDevice] and suspends until [BluetoothGattCallback.onServicesDiscovered]
      */
-    suspend fun connect(context: Context, device: BluetoothDevice): BluetoothGatt? {
+    suspend fun connect(context: Context, device: BluetoothDevice, controller: ChipDeviceController): BluetoothGatt? {
         return suspendCancellableCoroutine { continuation ->
             val bluetoothGattCallback = object : BluetoothGattCallback() {
                 override fun onConnectionStateChange(
@@ -89,6 +91,11 @@ class BluetoothManager {
                     if (continuation.isActive) {
                         continuation.resume(gatt)
                     }
+                }
+
+                override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
+                    Log.i("$TAG|onCharacteristicChanged", "Indication Received")
+                    controller.onCharacteristicChanged(gatt, characteristic.uuid.toString(), characteristic.value)
                 }
             }
 

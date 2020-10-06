@@ -151,6 +151,8 @@ BLE_ERROR BLEEndPoint::StartConnect()
     QueueTx(buf, kType_Data);
     buf = nullptr;
 
+    mBle->mPlatformDelegate->SubscribeCharacteristic(mConnObj, &CHIP_BLE_SVC_ID, &mBle->CHIP_BLE_CHAR_2_ID);
+
 exit:
     if (buf != nullptr)
     {
@@ -1196,6 +1198,9 @@ BLE_ERROR BLEEndPoint::HandleCapabilitiesRequestReceived(PacketBuffer * data)
 
     // Start receive timer. Canceled when end point freed or connection established.
     err = StartReceiveConnectionTimer();
+    SuccessOrExit(err);
+
+    err = DriveSending();
     SuccessOrExit(err);
 
 exit:

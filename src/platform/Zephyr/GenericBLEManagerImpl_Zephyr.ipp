@@ -599,7 +599,7 @@ bool GenericBLEManagerImpl_Zephyr<ImplClass>::SendIndication(BLE_CONNECTION_OBJE
     uint8_t index                    = bt_conn_index(conId);
     bt_gatt_indicate_params * params = &mIndicateParams[index];
 
-    VerifyOrExit(IsSubscribed(conId) == true, err = CHIP_ERROR_INVALID_ARGUMENT);
+    // VerifyOrExit(IsSubscribed(conId) == true, err = CHIP_ERROR_INVALID_ARGUMENT);
 
     ChipLogDetail(DeviceLayer, "Sending indication for CHIPoBLE TX characteristic (ConnId %u, len %u)", index, pBuf->DataLength());
 
