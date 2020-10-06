@@ -251,7 +251,8 @@ JNI_METHOD(void, beginConnectDevice)(JNIEnv * env, jobject self, jlong deviceCon
                                       .SetSetupPINCode(pinCode)
                                       .SetConnectionObject(reinterpret_cast<BLE_CONNECTION_OBJECT>(connObj))
                                       .SetBleLayer(&sBleLayer);
-    err = deviceController->ConnectDevice(kRemoteDeviceId, params, appReqState, HandleKeyExchange, HandleEchoResponse, HandleError);
+    err = deviceController->ConnectDevice(kRemoteDeviceId, params, (void *) "ConnectDevice", HandleKeyExchange, HandleEchoResponse,
+                                          HandleError);
 
     pthread_mutex_unlock(&sStackLock);
 
