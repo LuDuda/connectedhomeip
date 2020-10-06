@@ -93,7 +93,14 @@ class BluetoothManager {
                     }
                 }
 
+                override fun onCharacteristicWrite(gatt: BluetoothGatt?, characteristic: BluetoothGattCharacteristic?, status: Int) {
+                    super.onCharacteristicWrite(gatt, characteristic, status)
+                    Log.i("$TAG|onCharacteristicWrite", "ACK received")
+                    controller.onCharacteristicWrite(gatt, characteristic, status)
+                }
+
                 override fun onCharacteristicChanged(gatt: BluetoothGatt, characteristic: BluetoothGattCharacteristic) {
+                    super.onCharacteristicChanged(gatt, characteristic)
                     Log.i("$TAG|onCharacteristicChanged", "Indication Received")
                     controller.onCharacteristicChanged(gatt, characteristic.uuid.toString(), characteristic.value)
                 }

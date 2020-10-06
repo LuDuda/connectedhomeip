@@ -19,6 +19,10 @@ package chip.devicecontroller;
 
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
+import android.bluetooth.BluetoothGattDescriptor;
+import java.util.UUID;
 import android.util.Log;
 
 /** Controller to interact with the CHIP device. */
@@ -91,6 +95,30 @@ public class ChipDeviceController {
 
   public void onSendMessageComplete(String message) {
     completionListener.onSendMessageComplete(message);
+  }
+
+  public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
+    int connId = AndroidChipStack.getInstance().getConnId(gatt);
+
+    if (connId <= 0) {
+      Log.e(TAG, "onCharacteristicWrite for non-active connection");
+      return;
+    }
+
+    BluetoothGattService svc = characteristic.getService();
+    BluetoothGattCharacteristic indChar = svc.getCharacteristic(UUID.fromString("18EE2EF5-263D-4559-959F-4F9C429F9D12"));
+
+    if (!gatt.setCharacteristicNotification(indChar, true)) {
+      Log.e(TAG, "Failed to subscribe to characteristic.");
+      return;
+    }
+
+    BluetoothGattDescriptor descriptor = indChar.getDescriptor(UUID.fromString("00002902-0000-1000-8000-00805f9b34fb"));
+    descriptor.setValue(BluetoothGattDescriptor.ENABLE_INDICATION_VALUE);
+    if (!gatt.writeDescriptor(descriptor)) {
+      Log.e(TAG, "writeDescriptor failed");
+      return;
+    }
   }
 
   public void onCharacteristicChanged(BluetoothGatt gatt, String charId, byte[] value) {
