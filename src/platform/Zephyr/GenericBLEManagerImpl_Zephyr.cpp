@@ -67,7 +67,7 @@ _bt_gatt_ccc CHIPoBLEChar_TX_CCC =
 
 // clang-format off
 
-BT_GATT_SERVICE_DEFINE(CHIPoBLE_Service,
+static struct bt_gatt_attr CHIPoBLEAttr[] = {
     BT_GATT_PRIMARY_SERVICE(&UUID16_CHIPoBLEService.uuid),
         BT_GATT_CHARACTERISTIC(&UUID128_CHIPoBLEChar_RX.uuid,
                                BT_GATT_CHRC_WRITE | BT_GATT_CHRC_WRITE_WITHOUT_RESP,
@@ -78,7 +78,9 @@ BT_GATT_SERVICE_DEFINE(CHIPoBLE_Service,
                                BT_GATT_PERM_NONE,
                                nullptr, nullptr, nullptr),
         BT_GATT_CCC_MANAGED(&CHIPoBLEChar_TX_CCC, BT_GATT_PERM_READ | BT_GATT_PERM_WRITE)
-);
+};
+
+static struct bt_gatt_service CHIPoBLEService = BT_GATT_SERVICE(CHIPoBLEAttr);
 
 // clang-format on
 
@@ -107,6 +109,9 @@ CHIP_ERROR GenericBLEManagerImpl_Zephyr<ImplClass>::_Init()
     mConnCallbacks.disconnected = HandleDisconnect;
 
     bt_conn_cb_register(&mConnCallbacks);
+
+    err = bt_gatt_service_register(&CHIPoBLEService);
+    assert(err == 0);
 
     // Initialize the CHIP BleLayer.
     err = BleLayer::Init(this, this, &SystemLayer);
@@ -618,7 +623,7 @@ bool GenericBLEManagerImpl_Zephyr<ImplClass>::SendIndication(BLE_CONNECTION_OBJE
     ChipLogDetail(DeviceLayer, "Sending indication for CHIPoBLE TX characteristic (ConnId %u, len %u)", index, pBuf->DataLength());
 
     params->uuid = nullptr;
-    params->attr = &CHIPoBLE_Service.attrs[kCHIPoBLE_CCC_AttributeIndex];
+    params->attr = &CHIPoBLEAttr[kCHIPoBLE_CCC_AttributeIndex];
     params->func = HandleTXIndicated;
     params->data = pBuf->Start();
     params->len  = pBuf->DataLength();
