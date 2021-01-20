@@ -4,6 +4,11 @@ The nRF Connect platform is a
 [CHIP](https://github.com/project-chip/connectedhomeip) platform that uses
 Nordic Semiconductor's nRF Connect SDK.
 
+<p align="center">
+  <img src="../../examples/platform/nrfconnect/doc/images/Logo_RGB_H-small.png" alt="Nordic Semiconductor logo" height="75"/>
+  <img src="../../examples/platform/nrfconnect/doc/images/nRF Connect_on white bg_RGB-small.jpg" alt="nRF Connect logo" height="75"/>
+</p>
+
 The following diagram shows a simplified structure of a CHIP application that
 runs on the nRF Connect platform and uses BLE and Thread stacks for
 communication purposes:

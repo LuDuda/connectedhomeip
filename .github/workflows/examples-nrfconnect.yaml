@@ -53,6 +53,12 @@ jobs:
               run: scripts/examples/nrfconnect_example.sh shell nrf52840dk_nrf52840
             - name: Build example nRF Connect SDK Pigweed on nRF52840 DK
               run: scripts/examples/nrfconnect_example.sh pigweed-app nrf52840dk_nrf52840
+            - name: Build example nRF Connect SDK Lock App on nRF5340 DK
+              run: scripts/examples/nrfconnect_example.sh lock-app nrf5340dk_nrf5340_cpuapp
+            - name: Build example nRF Connect SDK Lighting App on nRF5340 DK
+              run: scripts/examples/nrfconnect_example.sh lighting-app nrf5340dk_nrf5340_cpuapp
+            - name: Build example nRF Connect SDK Shell on nRF5340 DK
+              run: scripts/examples/nrfconnect_example.sh shell nrf5340dk_nrf5340_cpuapp
             - name: Run unit tests for Zephyr native_posix_64 platform
               run:
                   scripts/tests/nrfconnect_native_posix_tests.sh native_posix_64
