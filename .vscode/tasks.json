@@ -231,6 +231,45 @@
                     "${workspaceFolder}/examples/pigweed-app/nrfconnect/build"
                 ]
             }
+        },
+        {
+            "label": "Build nRF Connect Lock Example (nRF5340)",
+            "type": "shell",
+            "command": "source scripts/activate.sh && scripts/examples/nrfconnect_example.sh lock-app nrf5340dk_nrf5340_cpuapp",
+            "group": "build",
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/examples/lock-app/nrfconnect/build"
+                ]
+            }
+        },
+        {
+            "label": "Build nRF Connect Lighting Example (nRF5340)",
+            "type": "shell",
+            "command": "source scripts/activate.sh && scripts/examples/nrfconnect_example.sh lighting-app nrf5340dk_nrf5340_cpuapp",
+            "group": "build",
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/examples/lighting-app/nrfconnect/build"
+                ]
+            }
+        },
+        {
+            "label": "Build nRF Connect Shell Example (nRF5340)",
+            "type": "shell",
+            "command": "source scripts/activate.sh && scripts/examples/nrfconnect_example.sh shell nrf5340dk_nrf5340_cpuapp",
+            "group": "build",
+            "problemMatcher": {
+                "base": "$gcc",
+                "fileLocation": [
+                    "relative",
+                    "${workspaceFolder}/examples/shell/nrfconnect/build"
+                ]
+            }
         }
     ]
 }
