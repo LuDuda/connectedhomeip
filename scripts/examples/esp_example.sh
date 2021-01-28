@@ -19,7 +19,15 @@
 set -x
 env
 
-root=examples/all-clusters-app/esp32/
+app="$1"
+root=examples/$app/esp32/
+
+shift 1
+
+if [ -z "$app" ]; then
+    echo "No mandatory app argument supplied!"
+    exit 1
+fi
 
 # shellcheck source=/dev/null
 source "$root"/idf.sh
