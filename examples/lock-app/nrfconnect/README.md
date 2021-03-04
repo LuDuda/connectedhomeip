@@ -6,8 +6,9 @@ states and LEDs to show the state of these changes. You can use this example as
 a reference for creating your own application.
 
 <p align="center">
-  <img src="../../platform/nrfconnect/doc/images/Logo_RGB_H-small.png" alt="Nordic Semiconductor logo" height="75"/>
-  <img src="../../platform/nrfconnect/doc/images/nRF52840 DK-small.png" alt="nrf52840 DK" height="100"/>
+  <img src="../../platform/nrfconnect/doc/images/Logo_RGB_H-small.png" alt="Nordic Semiconductor logo"
+    style="height: 75px; margin-bottom: 13px"/>
+  <img src="../../platform/nrfconnect/doc/images/nRF52840 DK-small.png" alt="nrf52840 DK" style="height: 100px"/>
 </p>
 
 The example is based on [CHIP](https://github.com/project-chip/connectedhomeip)
