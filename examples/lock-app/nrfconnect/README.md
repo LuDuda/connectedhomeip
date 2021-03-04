@@ -11,8 +11,8 @@ a reference for creating your own application.
 </p>
 
 The example is based on [CHIP](https://github.com/project-chip/connectedhomeip)
-and Nordic Semiconductor's nRF Connect SDK, and supports remote access and control of a
-simulated door lock over a low-power, 802.15.4 Thread network.
+and Nordic Semiconductor's nRF Connect SDK, and supports remote access and
+control of a simulated door lock over a low-power, 802.15.4 Thread network.
 
 The example behaves as a CHIP accessory, that is a device that can be paired
 into an existing CHIP network and can be controlled by this network.
@@ -40,7 +40,8 @@ into an existing CHIP network and can be controlled by this network.
 
 ## Overview
 
-This example is running on the nRF Connect platform, which is based on Nordic Semiconductor's
+This example is running on the nRF Connect platform, which is based on Nordic
+Semiconductor's
 [nRF Connect SDK](https://developer.nordicsemi.com/nRF_Connect_SDK/doc/latest/nrf/index.html)
 and [Zephyr RTOS](https://zephyrproject.org/). Visit CHIP's
 [nRF Connect platform overview](../../../docs/guides/nrfconnect_platform_overview.md)
@@ -96,10 +97,10 @@ The application requires the nRF Connect SDK v1.5.0 to work correctly.
 
 The example supports building and running on the following devices:
 
-| Hardware platform                                                                         | Build target              | Platform image  |
-| ----------------------------------------------------------------------------------------- | ------------------------- |-----------------|
-| [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK) | `nrf52840dk_nrf52840`     | <details><summary>nRF52840 DK</summary><img src="../../platform/nrfconnect/doc/images/nRF52840 DK_top-view-small.jpg" alt="nRF52840 DK"/></details> |
-| [nRF5340 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF5340-DK)   | `nrf5340dk_nrf5340_cpuapp`| <details><summary>nRF5340 DK</summary><img src="../../platform/nrfconnect/doc/images/nRF5340-DK_top-view-small.jpg" alt="nRF5340 DK"/></details>                |
+| Hardware platform                                                                         | Build target               | Platform image                                                                                                                                      |
+| ----------------------------------------------------------------------------------------- | -------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK) | `nrf52840dk_nrf52840`      | <details><summary>nRF52840 DK</summary><img src="../../platform/nrfconnect/doc/images/nRF52840 DK_top-view-small.jpg" alt="nRF52840 DK"/></details> |
+| [nRF5340 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF5340-DK)   | `nrf5340dk_nrf5340_cpuapp` | <details><summary>nRF5340 DK</summary><img src="../../platform/nrfconnect/doc/images/nRF5340-DK_top-view-small.jpg" alt="nRF5340 DK"/></details>    |
 
 <hr>
 
@@ -108,7 +109,8 @@ The example supports building and running on the following devices:
 ## Device UI
 
 This section lists the User Interface elements that you can use to control and
-monitor the state of the device. These correspond to PCB components on the platform image.
+monitor the state of the device. These correspond to PCB components on the
+platform image.
 
 **LED 1** shows the overall state of the device and its connectivity. The
 following states are possible:
@@ -280,8 +282,8 @@ environment:
         $ cd examples/lock-app/nrfconnect
 
 2.  Run the following command to build the example, with _build-target_ replaced
-    with the build target name of the Nordic Semiconductor's kit you own, for example
-    `nrf52840dk_nrf52840`:
+    with the build target name of the Nordic Semiconductor's kit you own, for
+    example `nrf52840dk_nrf52840`:
 
          $ west build -b build-target
 
@@ -305,8 +307,8 @@ features like logs and command-line interface, run the following command:
 
     $ west build -b build-target -- -DOVERLAY_CONFIG=third_party/connectedhomeip/config/nrfconnect/app/release.conf
 
-Remember to replace _build-target_ with the build target name of the Nordic Semiconductor's
-kit you own.
+Remember to replace _build-target_ with the build target name of the Nordic
+Semiconductor's kit you own.
 
 <hr>
 
@@ -322,8 +324,8 @@ directory:
 
     $ west build -b build-target -t menuconfig
 
-Remember to replace _build-target_ with the build target name of the Nordic Semiconductor's
-kit you own.
+Remember to replace _build-target_ with the build target name of the Nordic
+Semiconductor's kit you own.
 
 Changes done with menuconfig will be lost if the `build` directory is deleted.
 To make them persistent, save the configuration options in the `prj.conf` file.

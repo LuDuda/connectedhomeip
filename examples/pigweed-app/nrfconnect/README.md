@@ -72,10 +72,10 @@ The application requires the nRF Connect SDK v1.5.0 to work correctly.
 
 The example supports building and running on the following devices:
 
-| Hardware platform                                                                                   | Build target              | Platform image  |
-| --------------------------------------------------------------------------------------------------- | ------------------------- |-----------------|
-| [nRF52840 Dongle](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-Dongle)   | `nrf52840dongle_nrf52840` | <details><summary>nRF52840 Dongle</summary><img src="../../platform/nrfconnect/doc/images/nRF52840 Dongle-small.jpg" alt="nRF52840 Dongle"/></details>                |
-| [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK) | `nrf52840dk_nrf52840`     | <details><summary>nRF52840 DK</summary><img src="../../platform/nrfconnect/doc/images/nRF52840 DK_top-view-small.jpg" alt="nRF52840 DK"/></details> |
+| Hardware platform                                                                                 | Build target              | Platform image                                                                                                                                         |
+| ------------------------------------------------------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [nRF52840 Dongle](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-Dongle) | `nrf52840dongle_nrf52840` | <details><summary>nRF52840 Dongle</summary><img src="../../platform/nrfconnect/doc/images/nRF52840 Dongle-small.jpg" alt="nRF52840 Dongle"/></details> |
+| [nRF52840 DK](https://www.nordicsemi.com/Software-and-Tools/Development-Kits/nRF52840-DK)         | `nrf52840dk_nrf52840`     | <details><summary>nRF52840 DK</summary><img src="../../platform/nrfconnect/doc/images/nRF52840 DK_top-view-small.jpg" alt="nRF52840 DK"/></details>    |
 
 <hr>
 
@@ -84,7 +84,8 @@ The example supports building and running on the following devices:
 ## Device UI
 
 This section lists the User Interface elements that you can use to control and
-monitor the state of the device. These correspond to PCB components on the hardware platform.
+monitor the state of the device. These correspond to PCB components on the
+hardware platform.
 
 **LED 1** shows the overall state of the device. The following states are
 possible:
@@ -225,8 +226,8 @@ environment:
         $ cd examples/pigweed-app/nrfconnect
 
 3.  Run the following command to build the example, with _build-target_ replaced
-    with the build target name of the Nordic Semiconductor's kit you own, for example
-    `nrf52840dk_nrf52840`:
+    with the build target name of the Nordic Semiconductor's kit you own, for
+    example `nrf52840dk_nrf52840`:
 
          $ west build -b build-target
 
@@ -302,8 +303,8 @@ commands, with the _example-dir_ directory name updated for your configuration:
         $ cd example-dir
         $ west flash
 
-If you have multiple nRF52840 development kits connected, west will prompt you to pick
-the correct one.
+If you have multiple nRF52840 development kits connected, west will prompt you
+to pick the correct one.
 
 To debug the application on target, run the following commands:
 

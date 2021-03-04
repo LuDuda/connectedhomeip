@@ -37,8 +37,8 @@ possible to save changes permanently this way.
 Complete the following steps:
 
 1.  Build the application by typing the following command in the example
-    directory, with _build-target_ replaced with the build target name of the kit,
-    for example _nrf52840dk_nrf52840_:
+    directory, with _build-target_ replaced with the build target name of the
+    kit, for example _nrf52840dk_nrf52840_:
 
          $ west build -b build-target
 
@@ -96,8 +96,8 @@ in the nRF Connect SDK documentation.
 
 Because Kconfig configuration files are used in the building process, make sure
 that you rebuild your application after editing them by typing the following
-command in the example directory, with _build-target_ replaced with the build target
-name of the kit, for example _nrf52840dk_nrf52840_:
+command in the example directory, with _build-target_ replaced with the build
+target name of the kit, for example _nrf52840dk_nrf52840_:
 
         $ west build -b build-target
 
@@ -122,8 +122,8 @@ from your perspective:
 
 -   **Build configuration files.** These are hardware-platform-dependent
     configuration files, which are automatically included based on the
-    compilation build target name. They contain configuration for the kit and its
-    peripherals.
+    compilation build target name. They contain configuration for the kit and
+    its peripherals.
 
 -   **Project configuration file.** Every example application has its main
     configuration file called `prj.conf` that is located in the example
