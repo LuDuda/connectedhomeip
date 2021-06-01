@@ -141,9 +141,9 @@ I: 281 [DL] Device Type: 65535 (0xFFFF)
 Run the following command to establish the secure connection over Bluetooth LE,
 with the following assumptions for the Matter accessory device:
 
--   The discriminator of the device is *3840*
--   The setup pin code of the device is *20202021*
--   The temporary Node ID is *1234*
+-   The discriminator of the device is _3840_
+-   The setup pin code of the device is _20202021_
+-   The temporary Node ID is _1234_
 
 ```
 chip-device-ctrl > connect -ble 3840 20202021 1234
@@ -223,8 +223,8 @@ with network credentials.
 
 #### Commissioning a Wi-Fi device
 
-1. Assuming your Wi-Fi SSID is *TESTSSID*, and your Wi-Fi password is
-   *P455W4RD*, inject the credentials to the device by excuting the following
+1. Assuming your Wi-Fi SSID is _TESTSSID_, and your Wi-Fi password is
+   _P455W4RD_, inject the credentials to the device by excuting the following
    command:
 
     ```
@@ -259,7 +259,7 @@ previously commissioned. Depending on the network type:
 -   For Wi-Fi or Ethernet devices, the Matter accessory uses the mDNS (Multicast
     Domain Name System) protocol.
 
-Assuming your Fabric ID is *5544332211* and Node ID is *1234* (use the Node ID
+Assuming your Fabric ID is _5544332211_ and Node ID is _1234_ (use the Node ID
 you noted down when you established the secure connection over Bluetooth LE)),
 run the following command:
 
