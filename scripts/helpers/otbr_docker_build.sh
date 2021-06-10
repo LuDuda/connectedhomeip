@@ -43,13 +43,28 @@ usage() {
 
 while (($#)); do
     case "$1" in
-        --path) OTBR_PATH="$2"; shift;;
-        --rev) OTBR_REV="$2"; shift;;
-        --org) ORG="$2"; shift;;
-        --image) IMAGE="$2"; shift;;
-        --version) VERSION="$2"; shift;;
-        --push) ARGS+=("--push");;
-        --help) usage;;
+        --path)
+            OTBR_PATH="$2"
+            shift
+            ;;
+        --rev)
+            OTBR_REV="$2"
+            shift
+            ;;
+        --org)
+            ORG="$2"
+            shift
+            ;;
+        --image)
+            IMAGE="$2"
+            shift
+            ;;
+        --version)
+            VERSION="$2"
+            shift
+            ;;
+        --push) ARGS+=("--push") ;;
+        --help) usage ;;
     esac
     shift
 done
