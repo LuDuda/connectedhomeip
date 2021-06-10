@@ -57,12 +57,12 @@ done
 [[ -n "$OTBR_PATH" ]] || usage
 
 # Checkout ot-br-posix to the correct revision
-git -C $OTBR_PATH fetch || die "Failed to update repository: $OTBR_PATH"
-git -C $OTBR_PATH checkout $OTBR_REV || die "Failed to switch to revision: $OTBR_REV"
+git -C "$OTBR_PATH" fetch || die "Failed to update repository: $OTBR_PATH"
+git -C "$OTBR_PATH" checkout "$OTBR_REV" || die "Failed to switch to revision: $OTBR_REV"
 
 # Build docker image
 docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-docker buildx create --use --name otbr_builder --node otbr_node --driver docker-container --platform $PLATFORMS
-docker buildx build --no-cache -t "$ORG/$IMAGE:$VERSION" -f "$OTBR_PATH/etc/docker/Dockerfile" --platform $PLATFORMS ${ARGS[*]} $OTBR_PATH
+docker buildx create --use --name otbr_builder --node otbr_node --driver docker-container --platform "$PLATFORMS"
+docker buildx build --no-cache -t "$ORG/$IMAGE:$VERSION" -f "$OTBR_PATH/etc/docker/Dockerfile" --platform "$PLATFORMS" "${ARGS[*]}" "$OTBR_PATH"
 
 exit 0
