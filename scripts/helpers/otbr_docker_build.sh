@@ -34,7 +34,7 @@ ARGS=()
 # Temporary directory used, within $DIR
 OTBR_DIR=$(mktemp -d)
 
-if [ ! -e $OTBR_DIR ]; then
+if [ ! -e "$OTBR_DIR" ]; then
     echo "Error while creating the temporary directory" >&2
     exit 1
 fi
