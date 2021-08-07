@@ -31,6 +31,10 @@
 // Currently we need some work to keep compatible with ember lib.
 #include <app/util/ember-compatibility-functions.h>
 
+#ifdef EXAMPLE_CHANGE
+#define EXAMPLE_CHANGE
+#endif
+
 namespace chip {
 namespace app {
 

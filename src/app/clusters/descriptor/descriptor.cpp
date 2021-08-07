@@ -32,6 +32,10 @@
 using namespace chip;
 using namespace chip::app::Clusters;
 
+#ifdef EXAMPLE_CHANGE
+#define EXAMPLE_CHANGE
+#endif
+
 constexpr const char * kErrorStr = "Descriptor cluster (0x%02x) Error setting '%s' attribute: 0x%02x";
 
 EmberAfStatus writeAttribute(EndpointId endpoint, AttributeId attributeId, uint8_t * buffer, int32_t index = -1)

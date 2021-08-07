@@ -27,6 +27,10 @@
 
 using namespace chip;
 
+#ifdef EXAMPLE_CHANGE
+#define EXAMPLE_CHANGE
+#endif
+
 bool emberAfIdentifyClusterIdentifyQueryResponseCallback(app::CommandHandler * commandObj, uint16_t timeout)
 {
     emberAfIdentifyClusterPrintln("RX: IdentifyQueryResponse 0x%4x", timeout);

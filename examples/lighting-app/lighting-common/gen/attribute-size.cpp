@@ -27,6 +27,10 @@
 using namespace chip;
 using namespace chip::app::List;
 
+#ifdef EXAMPLE_CHANGE
+#define EXAMPLE_CHANGE
+#endif
+
 // The first 2 bytes specify the number of entries. A value of 0xFFFF means the list in invalid
 // and data is undefined.
 constexpr uint16_t kSizeLengthInBytes = 2u;
