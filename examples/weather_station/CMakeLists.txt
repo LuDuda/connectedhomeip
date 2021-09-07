@@ -6,6 +6,9 @@
 
 cmake_minimum_required(VERSION 3.20.0)
 
+get_filename_component(CHIP_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/../.. REALPATH)
+
+include(${CHIP_ROOT}/config/nrfconnect/app/check-nrfconnect-version.cmake)
 
 if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/configuration/${BOARD}")
   message(FATAL_ERROR
@@ -15,6 +18,8 @@ if (NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/configuration/${BOARD}")
 endif()
 
 ################################################################################
+
+list(APPEND ZEPHYR_EXTRA_MODULES ${CHIP_ROOT}/config/nrfconnect/chip-module)
 
 # The application uses the configuration/<board> scheme for configuration files.
 set(APPLICATION_CONFIG_DIR "configuration/\${BOARD}")
@@ -26,16 +31,18 @@ project(matter-weather-station)
 ################################################################################
 
 set(COMMON_ROOT ${ZEPHYR_NRF_MODULE_DIR}/samples/matter/common)
-set(NLIO_ROOT ${ZEPHYR_CONNECTEDHOMEIP_MODULE_DIR}/third_party/nlio/repo)
-include(${ZEPHYR_CONNECTEDHOMEIP_MODULE_DIR}/config/nrfconnect/app/enable-gnu-std.cmake)
-include(${ZEPHYR_CONNECTEDHOMEIP_MODULE_DIR}/src/app/chip_data_model.cmake)
+set(NRFCONNECT_COMMON ${CHIP_ROOT}/examples/platform/nrfconnect)
+set(NLIO_ROOT ${CHIP_ROOT}/third_party/nlio/repo)
+include(${CHIP_ROOT}/config/nrfconnect/app/enable-gnu-std.cmake)
+include(${CHIP_ROOT}/src/app/chip_data_model.cmake)
 
 # NORDIC SDK APP START
 target_include_directories(app PRIVATE
     src
     ${COMMON_ROOT}/src
+    ${NRFCONNECT_COMMON}/util/include
     ${NLIO_ROOT}/include
-    ${ZEPHYR_CONNECTEDHOMEIP_MODULE_DIR}/zzz_generated/app-common
+    ${CHIP_ROOT}/zzz_generated/app-common
 )
 
 target_sources(app PRIVATE
@@ -45,9 +52,8 @@ target_sources(app PRIVATE
     src/buzzer.cpp
     src/zap-generated/IMClusterCommandHandler.cpp
     src/zap-generated/callback-stub.cpp
-    ${COMMON_ROOT}/src/thread_util.cpp
-    ${COMMON_ROOT}/src/led_widget.cpp
-    ${COMMON_ROOT}/src/dfu_over_smp.cpp
+    ${NRFCONNECT_COMMON}/util/LEDWidget.cpp
+    ${NRFCONNECT_COMMON}/util/DFUOverSMP.cpp
 )
 
 if(CONFIG_CHIP_OTA_REQUESTOR)
