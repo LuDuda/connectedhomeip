@@ -15,6 +15,7 @@
 #include <app-common/zap-generated/attribute-type.h>
 #include <app-common/zap-generated/attributes/Accessors.h>
 #include <app-common/zap-generated/cluster-id.h>
+#include <app-common/zap-generated/cluster-objects.h>
 #include <app/server/OnboardingCodesUtil.h>
 #include <app/server/Server.h>
 #include <app/util/attribute-storage.h>
@@ -208,7 +209,7 @@ int AppTask::StartApp()
 	while (true) {
 		k_msgq_get(&sAppEventQueue, &event, K_FOREVER);
 		DispatchEvent(event);
-	}
+		}
 }
 
 void AppTask::PostEvent(const AppEvent &event)
@@ -411,20 +412,20 @@ void AppTask::UpdatePowerSourceClusterState()
 	/* Value is expressed in half percent units ranging from 0 to 200. */
 	uint8_t batteryPercentage;
 	uint32_t batteryTimeRemaining;
-	EmberAfPowerSourceStatus batteryStatus;
-	EmberAfBatChargeLevel batteryChargeLevel;
+	Clusters::PowerSource::PowerSourceStatus batteryStatus;
+	Clusters::PowerSource::BatChargeLevel batteryChargeLevel;
 	bool batteryPresent;
-	EmberAfBatChargeState batteryCharged;
+	Clusters::PowerSource::BatChargeState batteryCharged;
 
 	if (voltage < 0) {
 		voltage = 0;
 		batteryPercentage = 0;
-		batteryStatus = EMBER_ZCL_POWER_SOURCE_STATUS_UNAVAILABLE;
+		batteryStatus = Clusters::PowerSource::PowerSourceStatus::kUnavailable;
 		batteryPresent = false;
 
 		LOG_ERR("Battery level measurement failed %d", voltage);
 	} else {
-		batteryStatus = EMBER_ZCL_POWER_SOURCE_STATUS_ACTIVE;
+		batteryStatus = Clusters::PowerSource::PowerSourceStatus::kActive;
 		batteryPresent = true;
 	}
 
@@ -440,17 +441,17 @@ void AppTask::UpdatePowerSourceClusterState()
 	batteryTimeRemaining = kFullBatteryOperationTime * batteryPercentage / kMaxBatteryPercentage;
 
 	if (voltage < kCriticalThresholdVoltageMv) {
-		batteryChargeLevel = EMBER_ZCL_BAT_CHARGE_LEVEL_CRITICAL;
+		batteryChargeLevel = Clusters::PowerSource::BatChargeLevel::kCritical;
 	} else if (voltage < kWarningThresholdVoltageMv) {
-		batteryChargeLevel = EMBER_ZCL_BAT_CHARGE_LEVEL_WARNING;
+		batteryChargeLevel = Clusters::PowerSource::BatChargeLevel::kWarning;
 	} else {
-		batteryChargeLevel = EMBER_ZCL_BAT_CHARGE_LEVEL_OK;
+		batteryChargeLevel = Clusters::PowerSource::BatChargeLevel::kOk;
 	}
 
 	if (BatteryCharged()) {
-		batteryCharged = EMBER_ZCL_BAT_CHARGE_STATE_IS_CHARGING;
+		batteryCharged = Clusters::PowerSource::BatChargeState::kIsCharging;
 	} else {
-		batteryCharged = EMBER_ZCL_BAT_CHARGE_STATE_IS_NOT_CHARGING;
+		batteryCharged = Clusters::PowerSource::BatChargeState::kIsNotCharging;
 	}
 
 	status = Clusters::PowerSource::Attributes::BatteryVoltage::Set(kPowerSourceEndpointId, voltage);
@@ -470,12 +471,14 @@ void AppTask::UpdatePowerSourceClusterState()
 		LOG_ERR("Updating battery time remaining failed %x", status);
 	}
 
-	status = Clusters::PowerSource::Attributes::BatteryChargeLevel::Set(kPowerSourceEndpointId, batteryChargeLevel);
+	status = Clusters::PowerSource::Attributes::BatteryChargeLevel::Set(kPowerSourceEndpointId,
+									    chip::to_underlying(batteryChargeLevel));
 	if (status != EMBER_ZCL_STATUS_SUCCESS) {
 		LOG_ERR("Updating battery charge level failed %x", status);
 	}
 
-	status = Clusters::PowerSource::Attributes::Status::Set(kPowerSourceEndpointId, batteryStatus);
+	status = Clusters::PowerSource::Attributes::Status::Set(kPowerSourceEndpointId,
+								chip::to_underlying(batteryStatus));
 	if (status != EMBER_ZCL_STATUS_SUCCESS) {
 		LOG_ERR("Updating battery status failed %x", status);
 	}
@@ -485,7 +488,8 @@ void AppTask::UpdatePowerSourceClusterState()
 		LOG_ERR("Updating battery present failed %x", status);
 	}
 
-	status = Clusters::PowerSource::Attributes::BatteryChargeState::Set(kPowerSourceEndpointId, batteryCharged);
+	status = Clusters::PowerSource::Attributes::BatteryChargeState::Set(kPowerSourceEndpointId,
+									    chip::to_underlying(batteryCharged));
 	if (status != EMBER_ZCL_STATUS_SUCCESS) {
 		LOG_ERR("Updating battery charge failed %x", status);
 	}
@@ -545,7 +549,7 @@ void AppTask::UpdateStatusLED()
 	default:
 		break;
 	}
-}
+	}
 
 void AppTask::LEDStateUpdateHandler(LEDWidget &ledWidget)
 {
