@@ -6,9 +6,9 @@
 
 #include "app_task.h"
 
+#include "LEDWidget.h"
 #include "battery.h"
 #include "buzzer.h"
-#include "led_widget.h"
 #include <platform/CHIPDeviceLayer.h>
 
 #include <app-common/zap-generated/attribute-id.h>
@@ -21,6 +21,13 @@
 #include <app/util/attribute-storage.h>
 #include <credentials/DeviceAttestationCredsProvider.h>
 #include <credentials/examples/DeviceAttestationCredsExample.h>
+
+#if CONFIG_CHIP_OTA_REQUESTOR
+#include <app/clusters/ota-requestor/BDXDownloader.h>
+#include <app/clusters/ota-requestor/OTARequestor.h>
+#include <platform/GenericOTARequestorDriver.h>
+#include <platform/nrfconnect/OTAImageProcessorImpl.h>
+#endif
 
 #include <dk_buttons_and_leds.h>
 #include <drivers/sensor.h>
@@ -97,6 +104,13 @@ Identify sIdentify = { chip::EndpointId{ kIdentifyEndpointId }, AppTask::OnIdent
 		       EMBER_ZCL_IDENTIFY_IDENTIFY_TYPE_AUDIBLE_BEEP };
 
 const device *sBme688SensorDev = device_get_binding(DT_LABEL(DT_INST(0, bosch_bme680)));
+
+#if CONFIG_CHIP_OTA_REQUESTOR
+GenericOTARequestorDriver sOTARequestorDriver;
+OTAImageProcessorImpl sOTAImageProcessor;
+chip::BDXDownloader sBDXDownloader;
+chip::OTARequestor sOTARequestor;
+#endif
 } /* namespace */
 
 AppTask AppTask::sAppTask;
@@ -171,6 +185,16 @@ int AppTask::Init()
 
 #if defined(CONFIG_CHIP_NFC_COMMISSIONING)
 	PlatformMgr().AddEventHandler(AppTask::ChipEventHandler, 0);
+#endif
+
+#if CONFIG_CHIP_OTA_REQUESTOR
+	sOTAImageProcessor.SetOTADownloader(&sBDXDownloader);
+	sBDXDownloader.SetImageProcessorDelegate(&sOTAImageProcessor);
+	sOTARequestorDriver.Init(&sOTARequestor, &sOTAImageProcessor);
+	sOTARequestor.SetOtaRequestorDriver(&sOTARequestorDriver);
+	sOTARequestor.SetBDXDownloader(&sBDXDownloader);
+	sOTARequestor.SetServerInstance(&chip::Server::GetInstance());
+	chip::SetRequestorInstance(&sOTARequestor);
 #endif
 
 	return 0;

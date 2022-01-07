@@ -6,14 +6,14 @@
 
 #pragma once
 
+#include "LEDWidget.h"
 #include "app_event.h"
-#include "led_widget.h"
 
 #include <app/clusters/identify-server/identify-server.h>
 #include <platform/CHIPDeviceLayer.h>
 
 #ifdef CONFIG_MCUMGR_SMP_BT
-#include "dfu_over_smp.h"
+#include "DFUOverSMP.h"
 #endif
 
 struct k_timer;
