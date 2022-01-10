@@ -101,6 +101,18 @@ void ExchangeContext::UpdateSEDPollingMode()
         return;
     }
 
+    if (address.GetTransportType() != Transport::Type::kBle)
+    {
+    case Transport::Session::SessionType::kSecure:
+        address = GetSessionHandle()->AsSecureSession()->GetPeerAddress();
+        break;
+    case Transport::Session::SessionType::kUnauthenticated:
+        address = GetSessionHandle()->AsUnauthenticatedSession()->GetPeerAddress();
+        break;
+    default:
+        return;
+    }
+
     VerifyOrReturn(address.GetTransportType() != Transport::Type::kBle);
 }
 #endif
