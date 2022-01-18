@@ -191,9 +191,7 @@ int AppTask::Init()
 	sOTAImageProcessor.SetOTADownloader(&sBDXDownloader);
 	sBDXDownloader.SetImageProcessorDelegate(&sOTAImageProcessor);
 	sOTARequestorDriver.Init(&sOTARequestor, &sOTAImageProcessor);
-	sOTARequestor.SetOtaRequestorDriver(&sOTARequestorDriver);
-	sOTARequestor.SetBDXDownloader(&sBDXDownloader);
-	sOTARequestor.SetServerInstance(&chip::Server::GetInstance());
+	sOTARequestor.Init(&chip::Server::GetInstance(), &sOTARequestorDriver, &sBDXDownloader);
 	chip::SetRequestorInstance(&sOTARequestor);
 #endif
 
