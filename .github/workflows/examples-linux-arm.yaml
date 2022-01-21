@@ -63,31 +63,11 @@ jobs:
               run: |
                   ./scripts/run_in_build_env.sh \
                      "./scripts/build/build_examples.py \
-                        --target linux-arm64-all-clusters \
-                        --target linux-arm64-chip-tool-ipv6only \
-                        --target linux-arm64-door-lock \
-                        --target linux-arm64-minmdns \
-                        --target linux-arm64-thermostat-no-ble \
+                        --target linux-arm64-chip-tool \
                         build \
                      "
-            - name: Bloat report - chip-tool
-              timeout-minutes: 5
-              run: |
-                  .environment/pigweed-venv/bin/python3 scripts/tools/memory/gh_sizes.py \
-                    linux arm64 chip-tool-ipv6only \
-                    out/linux-arm64-chip-tool-ipv6only/chip-tool \
-                    /tmp/bloat_reports/
-            - name: Bloat report - thermostat
-              timeout-minutes: 5
-              run: |
-                  .environment/pigweed-venv/bin/python3 scripts/tools/memory/gh_sizes.py \
-                    linux arm64 thermostat-no-ble \
-                    out/linux-arm64-thermostat-no-ble/thermostat-app \
-                    /tmp/bloat_reports/
-            - name: Uploading Size Reports
+            - name: Upload artifacts
               uses: actions/upload-artifact@v2
-              if: ${{ !env.ACT }}
               with:
-                  name: Size,Linux-Examples,${{ env.GH_EVENT_PR }},${{ env.GH_EVENT_HASH }},${{ env.GH_EVENT_PARENT }},${{ github.event_name }}
-                  path: |
-                      /tmp/bloat_reports/
+                  name: chip-tool
+                  path: out/linux-arm64-chip-tool-ipv6only/chip-tool
