@@ -663,7 +663,7 @@
 
 #define ZAP_ATTRIBUTE_MASK(mask) ATTRIBUTE_MASK_##mask
 // This is an array of EmberAfAttributeMetadata structures.
-#define GENERATED_ATTRIBUTE_COUNT 146
+#define GENERATED_ATTRIBUTE_COUNT 148
 #define GENERATED_ATTRIBUTES                                                                                                            \
 	{                                                                                                                               \
 		/* Endpoint: 0, Cluster: Identify (server) */                                                                           \
@@ -747,6 +747,10 @@
 			  ZAP_LONG_DEFAULTS_INDEX(40) }, /* Breadcrumb */                                                               \
 			{ 0x0001, ZAP_TYPE(ARRAY), 254, 0, ZAP_LONG_DEFAULTS_INDEX(48) }, /* BasicCommissioningInfoList                 \
 											   */                                           \
+			{ 0x0002, ZAP_TYPE(ENUM8), 0, ZAP_ATTRIBUTE_MASK(EXTERNAL_STORAGE),                                             \
+			  ZAP_SIMPLE_DEFAULT(0) }, /* RegulatoryConfig */                                                               \
+			{ 0x0003, ZAP_TYPE(ENUM8), 0, ZAP_ATTRIBUTE_MASK(EXTERNAL_STORAGE),                                             \
+			  ZAP_SIMPLE_DEFAULT(0) }, /* LocationCapability */                                                             \
 			{ 0xFFFD, ZAP_TYPE(INT16U), 2, 0, ZAP_SIMPLE_DEFAULT(0x0001) }, /* ClusterRevision */                           \
                                                                                                                                         \
 			/* Endpoint: 0, Cluster: Network Commissioning (server) */                                                      \
@@ -948,64 +952,64 @@
 													Cluster: Power            \
 													Source                    \
 													(server) */               \
-			{ 0x0030, ZAP_ATTRIBUTE_INDEX(40), 3, 264, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,              \
+			{ 0x0030, ZAP_ATTRIBUTE_INDEX(40), 5, 264, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,              \
 													Cluster:                  \
 													General                   \
 													Commissioning             \
 													(server) */               \
-			{ 0x0031, ZAP_ATTRIBUTE_INDEX(43), 1, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,                \
+			{ 0x0031, ZAP_ATTRIBUTE_INDEX(45), 1, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,                \
 												      Cluster: Network            \
 												      Commissioning               \
 												      (server) */                 \
-			{ 0x0033, ZAP_ATTRIBUTE_INDEX(44), 3, 258, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,              \
+			{ 0x0033, ZAP_ATTRIBUTE_INDEX(46), 3, 258, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,              \
 													Cluster:                  \
 													General                   \
 													Diagnostics               \
 													(server) */               \
-			{ 0x0034, ZAP_ATTRIBUTE_INDEX(47), 4, 26, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,               \
+			{ 0x0034, ZAP_ATTRIBUTE_INDEX(49), 4, 26, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,               \
 												       Cluster:                   \
 												       Software                   \
 												       Diagnostics                \
 												       (server) */                \
-			{ 0x0035, ZAP_ATTRIBUTE_INDEX(51), 61, 755, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,             \
+			{ 0x0035, ZAP_ATTRIBUTE_INDEX(53), 61, 755, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,             \
 													 Cluster:                 \
 													 Thread                   \
 													 Network                  \
 													 Diagnostics              \
 													 (server) */              \
-			{ 0x003C, ZAP_ATTRIBUTE_INDEX(112), 1, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,               \
+			{ 0x003C, ZAP_ATTRIBUTE_INDEX(114), 1, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,               \
 												       Cluster:                   \
 												       AdministratorCommissioning \
 												       (server) */                \
-			{ 0x003E, ZAP_ATTRIBUTE_INDEX(113), 6, 725, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,             \
+			{ 0x003E, ZAP_ATTRIBUTE_INDEX(115), 6, 725, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 0,             \
 													 Cluster:                 \
 													 Operational              \
 													 Credentials              \
 													 (server) */              \
-			{ 0x001D, ZAP_ATTRIBUTE_INDEX(119), 5, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 1,               \
+			{ 0x001D, ZAP_ATTRIBUTE_INDEX(121), 5, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 1,               \
 												       Cluster:                   \
 												       Descriptor                 \
 												       (server) */                \
-			{ 0x0402, ZAP_ATTRIBUTE_INDEX(124), 4, 8, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 1,               \
+			{ 0x0402, ZAP_ATTRIBUTE_INDEX(126), 4, 8, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 1,               \
 												       Cluster:                   \
 												       Temperature                \
 												       Measurement                \
 												       (server) */                \
-			{ 0x001D, ZAP_ATTRIBUTE_INDEX(128), 5, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 2,               \
+			{ 0x001D, ZAP_ATTRIBUTE_INDEX(130), 5, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 2,               \
 												       Cluster:                   \
 												       Descriptor                 \
 												       (server) */                \
-			{ 0x0405, ZAP_ATTRIBUTE_INDEX(133), 4, 8, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 2,               \
+			{ 0x0405, ZAP_ATTRIBUTE_INDEX(135), 4, 8, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 2,               \
 												       Cluster:                   \
 												       Relative                   \
 												       Humidity                   \
 												       Measurement                \
 												       (server) */                \
-			{ 0x001D, ZAP_ATTRIBUTE_INDEX(137), 5, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 3,               \
+			{ 0x001D, ZAP_ATTRIBUTE_INDEX(139), 5, 2, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 3,               \
 												       Cluster:                   \
 												       Descriptor                 \
 												       (server) */                \
-			{ 0x0403, ZAP_ATTRIBUTE_INDEX(142), 4, 8, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 3,               \
+			{ 0x0403, ZAP_ATTRIBUTE_INDEX(144), 4, 8, ZAP_CLUSTER_MASK(SERVER), NULL }, /* Endpoint: 3,               \
 												       Cluster:                   \
 												       Pressure                   \
 												       Measurement                \
