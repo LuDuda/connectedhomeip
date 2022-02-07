@@ -102,6 +102,7 @@ private:
     CHIP_ERROR GetLocalConfigDisabled(bool & disabled) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
     CHIP_ERROR GetReachable(bool & reachable) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
     CHIP_ERROR GetUniqueId(char * buf, size_t bufSize) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
+    CHIP_ERROR GetPermanentUniqueId(char * buf, size_t bufSize) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
 #if !defined(NDEBUG)
     CHIP_ERROR RunUnitTests(void) override { return CHIP_ERROR_NOT_IMPLEMENTED; }
 #endif

@@ -618,6 +618,14 @@ CHIP_ERROR GenericConfigurationManagerImpl<ConfigClass>::GetSecondaryPairingInst
 }
 
 template <class ConfigClass>
+CHIP_ERROR GenericConfigurationManagerImpl<ConfigClass>::GetPermanentUniqueId(char * buf, size_t bufSize)
+{
+    ReturnErrorCodeIf(bufSize < sizeof(CHIP_DEVICE_CONFIG_PERMANENT_UNIQUE_ID), CHIP_ERROR_BUFFER_TOO_SMALL);
+    strcpy(buf, CHIP_DEVICE_CONFIG_PERMANENT_UNIQUE_ID);
+    return CHIP_NO_ERROR;
+}
+
+template <class ConfigClass>
 CHIP_ERROR GenericConfigurationManagerImpl<ConfigClass>::RunUnitTests()
 {
 #if !defined(NDEBUG)

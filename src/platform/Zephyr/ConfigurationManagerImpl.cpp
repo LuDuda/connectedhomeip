@@ -127,6 +127,25 @@ CHIP_ERROR ConfigurationManagerImpl::StoreTotalOperationalHours(uint32_t totalOp
     return ZephyrConfig::WriteConfigValue(ZephyrConfig::kCounterKey_TotalOperationalHours, totalOperationalHours);
 }
 
+CHIP_ERROR ConfigurationManagerImpl::GetUniqueId(char * buf, size_t bufSize)
+{
+    size_t uniqueIdLen = 0;
+
+    if (!ZephyrConfig::ConfigValueExists(ZephyrConfig::kConfigKey_UniqueId))
+    {
+        // In order to prevent tracking Unique ID SHOULD NOT be identical to (or easily derived from)
+        // permanent device identifier (like EUI-64) and SHOULD be updated when the device is factory reset.
+        // As a default implementation, use randomly generated 32-bytes.
+
+        uint8_t uniqueIdBuffer[kMaxUniqueIDLength];
+
+        ReturnErrorOnFailure(::chip::Crypto::DRBG_get_bytes(uniqueIdBuffer, sizeof(uniqueIdBuffer)));
+        ReturnErrorOnFailure(WriteConfigValueBin(ZephyrConfig::kConfigKey_UniqueId, uniqueIdBuffer, sizeof(uniqueIdBuffer)));
+    }
+    
+    return ReadConfigValueBin(ZephyrConfig::kConfigKey_UniqueId, reinterpret_cast<uint8_t *>(buf), bufSize, uniqueIdLen);
+}
+
 void ConfigurationManagerImpl::InitiateFactoryReset()
 {
     PlatformMgr().ScheduleWork(DoFactoryReset);

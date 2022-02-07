@@ -1068,12 +1068,12 @@ void BLEManagerImpl::HandleC3CharRead(struct ble_gatt_char_context * param)
     CHIP_ERROR err = CHIP_NO_ERROR;
     chip::System::PacketBufferHandle bufferHandle;
 
-    char serialNumber[ConfigurationManager::kMaxSerialNumberLength + 1];
+    char uniqueId[ConfigurationManager::kMaxUniqueIdLength + 1];
     uint16_t lifetimeCounter = 0;
     BitFlags<AdditionalDataFields> additionalDataFields;
 
 #if CHIP_ENABLE_ROTATING_DEVICE_ID
-    err = ConfigurationMgr().GetSerialNumber(serialNumber, sizeof(serialNumber));
+    err = ConfigurationMgr().GetPermanentUniqueId(uniqueId, sizeof(uniqueId));
     SuccessOrExit(err);
     err = ConfigurationMgr().GetLifetimeCounter(lifetimeCounter);
     SuccessOrExit(err);
@@ -1081,7 +1081,7 @@ void BLEManagerImpl::HandleC3CharRead(struct ble_gatt_char_context * param)
     additionalDataFields.Set(AdditionalDataFields::RotatingDeviceId);
 #endif /* CHIP_ENABLE_ROTATING_DEVICE_ID */
 
-    err = AdditionalDataPayloadGenerator().generateAdditionalDataPayload(lifetimeCounter, serialNumber, strlen(serialNumber),
+    err = AdditionalDataPayloadGenerator().generateAdditionalDataPayload(lifetimeCounter, uniqueId, strlen(uniqueId),
                                                                          bufferHandle, additionalDataFields);
     SuccessOrExit(err);
 

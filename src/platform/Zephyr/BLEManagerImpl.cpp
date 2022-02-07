@@ -587,12 +587,12 @@ CHIP_ERROR BLEManagerImpl::PrepareC3CharData()
 {
     CHIP_ERROR err = CHIP_NO_ERROR;
 
-    char serialNumber[ConfigurationManager::kMaxSerialNumberLength + 1] = {};
-    uint16_t lifetimeCounter                                            = 0;
+    char uniqueId[ConfigurationManager::kMaxUniqueIDLength + 1] = {};
+    uint16_t lifetimeCounter                                    = 0;
     BitFlags<AdditionalDataFields> additionalDataFields;
 
 #if CHIP_ENABLE_ROTATING_DEVICE_ID
-    err = ConfigurationMgr().GetSerialNumber(serialNumber, sizeof(serialNumber));
+    err = ConfigurationMgr().GetPermanentUniqueId(uniqueId, sizeof(uniqueId));
     SuccessOrExit(err);
     err = ConfigurationMgr().GetLifetimeCounter(lifetimeCounter);
     SuccessOrExit(err);
@@ -600,7 +600,7 @@ CHIP_ERROR BLEManagerImpl::PrepareC3CharData()
     additionalDataFields.Set(AdditionalDataFields::RotatingDeviceId);
 #endif
 
-    err = AdditionalDataPayloadGenerator().generateAdditionalDataPayload(lifetimeCounter, serialNumber, strlen(serialNumber),
+    err = AdditionalDataPayloadGenerator().generateAdditionalDataPayload(lifetimeCounter, uniqueId, strlen(uniqueId),
                                                                          c3CharDataBufferHandle, additionalDataFields);
 
 exit:

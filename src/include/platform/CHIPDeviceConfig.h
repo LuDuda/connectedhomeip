@@ -1207,6 +1207,15 @@
 #endif
 
 /**
+ * CHIP_DEVICE_CONFIG_PERMANENT_UNIQUE_ID
+ *
+ * Permanent Unique ID which may be taken as an input for creating Rotating Device ID.
+ */
+#ifndef CHIP_DEVICE_CONFIG_PERMANENT_UNIQUE_ID
+#define CHIP_DEVICE_CONFIG_PERMANENT_UNIQUE_ID 0
+#endif
+
+/**
  * CHIP_DEVICE_CONFIG_PAIRING_INITIAL_HINT
  *
  * Pairing Hint, bitmap value of methods to put device into pairing mode
