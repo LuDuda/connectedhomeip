@@ -88,6 +88,7 @@ void ExchangeContext::SetResponseTimeout(Timeout timeout)
 void ExchangeContext::UpdateSEDPollingMode()
 {
     Transport::PeerAddress address;
+    VerifyOrReturn(mSession);
 
     switch (GetSessionHandle()->GetSessionType())
     {
