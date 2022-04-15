@@ -180,20 +180,6 @@ namespace app
 
 		} // namespace GeneralCommissioning
 
-		namespace Groups
-		{
-			void DispatchServerCommand(CommandHandler *apCommandObj,
-						   const ConcreteCommandPath &aCommandPath, TLV::TLVReader &aDataTlv)
-			{
-				apCommandObj->AddStatus(aCommandPath,
-							Protocols::InteractionModel::Status::UnsupportedCommand);
-				ChipLogError(Zcl, "Unknown command " ChipLogFormatMEI " for cluster " ChipLogFormatMEI,
-					     ChipLogValueMEI(aCommandPath.mCommandId),
-					     ChipLogValueMEI(aCommandPath.mClusterId));
-			}
-
-		} // namespace Groups
-
 		namespace Identify
 		{
 			void DispatchServerCommand(CommandHandler *apCommandObj,
@@ -833,9 +819,6 @@ namespace app
 			break;
 		case Clusters::GeneralCommissioning::Id:
 			Clusters::GeneralCommissioning::DispatchServerCommand(apCommandObj, aCommandPath, aReader);
-			break;
-		case Clusters::Groups::Id:
-			Clusters::Groups::DispatchServerCommand(apCommandObj, aCommandPath, aReader);
 			break;
 		case Clusters::Identify::Id:
 			Clusters::Identify::DispatchServerCommand(apCommandObj, aCommandPath, aReader);

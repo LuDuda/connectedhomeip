@@ -36,7 +36,7 @@ if CHIP
 
 config CHIP_DEVICE_VENDOR_ID
 	int "Device vendor ID"
-	default 9050 # 0x235A
+	default 65521 # 0xFFF1
 	range 0 65535
 	help
 	  Identifier of the device manufacturer, assigned by Connectivity Standards

@@ -20,7 +20,6 @@
  *
  * 0x4E57: nrfconnect weather-station
  */
-#define CHIP_DEVICE_CONFIG_DEVICE_VENDOR_ID 0xFFF1
 #define CHIP_DEVICE_CONFIG_DEVICE_PRODUCT_ID 0x4E57
 
 /* Use a default pairing code if one hasn't been provisioned in flash. */
