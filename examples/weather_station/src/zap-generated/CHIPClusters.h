@@ -31,6 +31,19 @@ namespace chip
 {
 namespace Controller
 {
+	class DLL_EXPORT BindingCluster : public ClusterBase {
+	public:
+		BindingCluster() : ClusterBase(app::Clusters::Binding::Id) {}
+		~BindingCluster() {}
+
+		// Cluster Commands
+		CHIP_ERROR Bind(Callback::Cancelable *onSuccessCallback, Callback::Cancelable *onFailureCallback,
+				chip::NodeId nodeId, chip::GroupId groupId, chip::EndpointId endpointId,
+				chip::ClusterId clusterId);
+		CHIP_ERROR Unbind(Callback::Cancelable *onSuccessCallback, Callback::Cancelable *onFailureCallback,
+				  chip::NodeId nodeId, chip::GroupId groupId, chip::EndpointId endpointId,
+				  chip::ClusterId clusterId);
+	};
 
 	class DLL_EXPORT OtaSoftwareUpdateProviderCluster : public ClusterBase {
 	public:
