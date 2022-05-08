@@ -1756,8 +1756,7 @@ static void ConnectDeviceDone(GObject * aObject, GAsyncResult * aResult, gpointe
         // It's important to make sure that the connection is correctly ceased, by calling `Disconnect()`
         // D-Bus method, or else `Connect()` returns immediately without any effect.
         // Note that still there is a global timeout that applies, so there is no need to limit retries.
-        if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_DBUS_ERROR) &&
-            strstr(error->message, "Software caused connection abort"))
+        if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_DBUS_ERROR) && strstr(error->message, "Software caused connection abort"))
         {
             BluezEndpoint * endpoint = static_cast<BluezEndpoint *>(apEndpoint);
             assert(endpoint != nullptr);
