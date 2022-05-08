@@ -1740,7 +1740,7 @@ struct ConnectParams
     BluezEndpoint * mEndpoint;
 };
 
-static void ConnectDeviceDone(GObject * aObject, GAsyncResult * aResult, gpointer)
+static void ConnectDeviceDone(GObject * aObject, GAsyncResult * aResult, gpointer apEndpoint)
 {
     BluezDevice1 * device = BLUEZ_DEVICE1(aObject);
     GError * error        = nullptr;
@@ -1748,7 +1748,28 @@ static void ConnectDeviceDone(GObject * aObject, GAsyncResult * aResult, gpointe
 
     if (!success)
     {
-        ChipLogError(DeviceLayer, "FAIL: ConnectDevice : %s", error->message);
+        ChipLogError(DeviceLayer, "FAIL: ConnectDevice : %s (%d)", error->message, error->code);
+
+        // Due to radio interferences or Wi-Fi coexistence, sometimes the BLE connection may not be
+        // established (e.g. Connection Indication Packet is missed by BLE peripheral). In such case,
+        // BlueZ returns "Software caused connection abort error", and we should make a connection retry.
+        // It's important to make sure that the connection is correctly ceased, by calling `Disconnect()`
+        // D-Bus method, or else `Connect()` returns immediately without any effect.
+        // Note that still there is a global timeout that applies, so there is no need to limit retries.
+        if (g_error_matches(error, G_IO_ERROR, G_IO_ERROR_DBUS_ERROR) &&
+            strstr(error->message, "Software caused connection abort"))
+        {
+            BluezEndpoint * endpoint = static_cast<BluezEndpoint *>(apEndpoint);
+            assert(endpoint != nullptr);
+
+            // Clear the error before another call.
+            g_clear_error(&error);
+
+            bluez_device1_call_disconnect_sync(device, NULL, &error);
+            bluez_device1_call_connect(device, endpoint->mpConnectCancellable, ConnectDeviceDone, endpoint);
+            ExitNow();
+        }
+
         BLEManagerImpl::HandleConnectFailed(CHIP_ERROR_INTERNAL);
         ExitNow();
     }
@@ -1769,7 +1790,7 @@ static gboolean ConnectDeviceImpl(ConnectParams * apParams)
     assert(endpoint != nullptr);
 
     g_cancellable_reset(endpoint->mpConnectCancellable);
-    bluez_device1_call_connect(device, endpoint->mpConnectCancellable, ConnectDeviceDone, nullptr);
+    bluez_device1_call_connect(device, endpoint->mpConnectCancellable, ConnectDeviceDone, endpoint);
     g_object_unref(device);
     chip::Platform::Delete(apParams);
 
