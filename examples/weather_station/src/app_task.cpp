@@ -23,7 +23,7 @@
 #include <credentials/examples/DeviceAttestationCredsExample.h>
 
 #ifdef CONFIG_CHIP_OTA_REQUESTOR
-#include "ota_util.h"
+#include "OTAUtil.h"
 #endif
 
 #include <dk_buttons_and_leds.h>

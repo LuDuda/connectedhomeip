@@ -57,7 +57,7 @@ target_sources(app PRIVATE
 )
 
 if(CONFIG_CHIP_OTA_REQUESTOR)
-    target_sources(app PRIVATE ${COMMON_ROOT}/src/ota_util.cpp)
+    target_sources(app PRIVATE ${NRFCONNECT_COMMON}/util/OTAUtil.cpp)
 endif()
 
 chip_configure_data_model(app
