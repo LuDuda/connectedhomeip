@@ -191,7 +191,9 @@ CHIP_ERROR AppTask::Init()
 #ifdef CONFIG_MCUMGR_SMP_BT
 	/* Initialize DFU over SMP */
 	GetDFUOverSMP().Init(RequestSMPAdvertisingStart);
+#ifndef CONFIG_CHIP_OTA_REQUESTOR
 	GetDFUOverSMP().ConfirmNewImage();
+#endif
 	GetDFUOverSMP().StartServer();
 #endif
 
