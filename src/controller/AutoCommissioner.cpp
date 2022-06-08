@@ -179,6 +179,8 @@ CommissioningStage AutoCommissioner::GetNextCommissioningStageInternal(Commissio
     case CommissioningStage::kSendTrustedRootCert:
         return CommissioningStage::kSendNOC;
     case CommissioningStage::kSendNOC:
+        return CommissioningStage::kNetworkScan;
+    case CommissioningStage::kNetworkScan:
         // TODO(cecille): device attestation casues operational cert provisioinging to happen, This should be a separate stage.
         // For thread and wifi, this should go to network setup then enable. For on-network we can skip right to finding the
         // operational network because the provisioning of certificates will trigger the device to start operational advertising.
@@ -306,6 +308,11 @@ Optional<System::Clock::Timeout> AutoCommissioner::GetCommandTimeout(DeviceProxy
     System::Clock::Timeout timeout;
     switch (stage)
     {
+    case CommissioningStage::kNetworkScan:
+        ChipLogProgress(Controller, "Setting network scanning time max = %u",
+                        mDeviceCommissioningInfo.network.thread.maxScanTime);
+        timeout = System::Clock::Seconds16(mDeviceCommissioningInfo.network.thread.maxScanTime + 5);
+        break;
     case CommissioningStage::kWiFiNetworkEnable:
         ChipLogProgress(Controller, "Setting wifi connection time min = %u",
                         mDeviceCommissioningInfo.network.wifi.minConnectionTime);

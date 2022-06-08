@@ -45,6 +45,7 @@ enum CommissioningStage : uint8_t
     kGenerateNOCChain,
     kSendTrustedRootCert,
     kSendNOC,
+    kNetworkScan,
     kWiFiNetworkSetup,
     kThreadNetworkSetup,
     kWiFiNetworkEnable,
@@ -425,6 +426,7 @@ struct NetworkClusterInfo
 {
     EndpointId endpoint = kInvalidEndpointId;
     app::Clusters::NetworkCommissioning::Attributes::ConnectMaxTimeSeconds::TypeInfo::DecodableType minConnectionTime;
+    app::Clusters::NetworkCommissioning::Attributes::ScanMaxTimeSeconds::TypeInfo::DecodableType maxScanTime;
 };
 struct NetworkClusters
 {
@@ -491,6 +493,7 @@ public:
      * kGenerateNOCChain: NocChain
      * kSendTrustedRootCert: None
      * kSendNOC: none
+     * kNetworkScan: NetworkCommissioningStatusInfo if there is an error
      * kWiFiNetworkSetup: NetworkCommissioningStatusInfo if there is an error
      * kThreadNetworkSetup: NetworkCommissioningStatusInfo if there is an error
      * kWiFiNetworkEnable: NetworkCommissioningStatusInfo if there is an error

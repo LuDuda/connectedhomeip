@@ -81,6 +81,10 @@ const char * StageToString(CommissioningStage stage)
         return "SendNOC";
         break;
 
+    case kNetworkScan:
+        return "NetworkScan";
+        break;
+
     case kWiFiNetworkSetup:
         return "WiFiNetworkSetup";
         break;
