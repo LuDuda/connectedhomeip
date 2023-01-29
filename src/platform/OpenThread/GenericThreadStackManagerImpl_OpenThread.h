@@ -98,13 +98,16 @@ protected:
     CHIP_ERROR _StartThreadScan(NetworkCommissioning::ThreadDriver::ScanCallback * callback);
     static void _OnNetworkScanFinished(otActiveScanResult * aResult, void * aContext);
     void _OnNetworkScanFinished(otActiveScanResult * aResult);
-    void _UpdateNetworkStatus();
+    CHIP_ERROR StartThreadDiscovery(void);
+    static void RequestThreadDiscovery(chip::System::Layer * apSystemLayer, void * apAppState);
+    void RequestThreadDiscovery(void);
+    void _UpdateNetworkStatus(void);
 
 #if CHIP_DEVICE_CONFIG_ENABLE_SED
     CHIP_ERROR _GetSEDIntervalsConfig(ConnectivityManager::SEDIntervalsConfig & intervalsConfig);
     CHIP_ERROR _SetSEDIntervalsConfig(const ConnectivityManager::SEDIntervalsConfig & intervalsConfig);
     CHIP_ERROR _RequestSEDActiveMode(bool onOff, bool delayIdle);
-    CHIP_ERROR SEDUpdateMode();
+    CHIP_ERROR SEDUpdateMode(void);
     static void RequestSEDModeUpdate(chip::System::Layer * apSystemLayer, void * apAppState);
 #endif
 
@@ -165,6 +168,7 @@ private:
     ConnectivityManager::SEDIntervalMode mIntervalsMode = ConnectivityManager::SEDIntervalMode::Idle;
     uint32_t mActiveModeConsumers                       = 0;
     bool mDelayIdleTimerRunning                         = false;
+    static constexpr uint32_t kThreadScanDelayMs        = 300;
 #endif
 
 #if CHIP_DEVICE_CONFIG_ENABLE_THREAD_SRP_CLIENT

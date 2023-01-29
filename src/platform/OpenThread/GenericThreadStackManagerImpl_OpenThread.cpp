@@ -411,12 +411,15 @@ GenericThreadStackManagerImpl_OpenThread<ImplClass>::_StartThreadScan(NetworkCom
         mTemporaryRxOnWhenIdle = true;
         linkMode.mRxOnWhenIdle = true;
         otThreadSetLinkMode(mOTInst, linkMode);
+
+        // Delay Thread scanning to allow Child Update Request/Response transaction to finish.
+        DeviceLayer::SystemLayer().StartTimer(System::Clock::Milliseconds32(kThreadScanDelayMs),
+                                              RequestThreadDiscovery, this);
+        ExitNow();
     }
 #endif
 
-    error = MapOpenThreadError(otThreadDiscover(mOTInst, 0,                       /* all channels */
-                                                OT_PANID_BROADCAST, false, false, /* disable PAN ID, EUI64 and Joiner filtering */
-                                                _OnNetworkScanFinished, this));
+    error = StartThreadDiscovery();
 
 exit:
     Impl()->UnlockThreadStack();
@@ -427,6 +430,38 @@ exit:
     }
 
     return error;
+}
+
+template <class ImplClass>
+void GenericThreadStackManagerImpl_OpenThread<ImplClass>::RequestThreadDiscovery(chip::System::Layer * apSystemLayer,
+                                                                                 void * apAppState)
+{
+    reinterpret_cast<GenericThreadStackManagerImpl_OpenThread *>(apAppState)->RequestThreadDiscovery();
+}
+
+template <class ImplClass>
+void GenericThreadStackManagerImpl_OpenThread<ImplClass>::RequestThreadDiscovery(void)
+{
+    Impl()->LockThreadStack();
+    CHIP_ERROR error = StartThreadDiscovery();
+    Impl()->UnlockThreadStack();
+
+    if (error != CHIP_NO_ERROR)
+    {
+        if (mpScanCallback != nullptr)
+        {
+            mpScanCallback->OnFinished(NetworkCommissioning::Status::kUnknownError, CharSpan(), nullptr);
+            mpScanCallback = nullptr;
+        }
+    }
+}
+
+template <class ImplClass>
+CHIP_ERROR GenericThreadStackManagerImpl_OpenThread<ImplClass>::StartThreadDiscovery(void)
+{
+    return MapOpenThreadError(otThreadDiscover(mOTInst, 0,                       /* all channels */
+                                               OT_PANID_BROADCAST, false, false, /* disable PAN ID, EUI64 and Joiner filtering */
+                                               _OnNetworkScanFinished, this));
 }
 
 template <class ImplClass>
@@ -1918,7 +1953,7 @@ CHIP_ERROR GenericThreadStackManagerImpl_OpenThread<ImplClass>::_RequestSEDActiv
 }
 
 template <class ImplClass>
-CHIP_ERROR GenericThreadStackManagerImpl_OpenThread<ImplClass>::SEDUpdateMode()
+CHIP_ERROR GenericThreadStackManagerImpl_OpenThread<ImplClass>::SEDUpdateMode(void)
 {
     CHIP_ERROR err = CHIP_NO_ERROR;
     ConnectivityManager::SEDIntervalMode mode;
@@ -2032,7 +2067,7 @@ exit:
 }
 
 template <class ImplClass>
-void GenericThreadStackManagerImpl_OpenThread<ImplClass>::_UpdateNetworkStatus()
+void GenericThreadStackManagerImpl_OpenThread<ImplClass>::_UpdateNetworkStatus(void)
 {
     // Thread is not enabled, then we are not trying to connect to the network.
     VerifyOrReturn(ThreadStackMgrImpl().IsThreadEnabled() && mpStatusChangeCallback != nullptr);
