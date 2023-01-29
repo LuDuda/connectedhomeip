@@ -413,8 +413,7 @@ GenericThreadStackManagerImpl_OpenThread<ImplClass>::_StartThreadScan(NetworkCom
         otThreadSetLinkMode(mOTInst, linkMode);
 
         // Delay Thread scanning to allow Child Update Request/Response transaction to finish.
-        DeviceLayer::SystemLayer().StartTimer(System::Clock::Milliseconds32(kThreadScanDelayMs),
-                                              RequestThreadDiscovery, this);
+        DeviceLayer::SystemLayer().StartTimer(System::Clock::Milliseconds32(kThreadScanDelayMs), RequestThreadDiscovery, this);
         ExitNow();
     }
 #endif
