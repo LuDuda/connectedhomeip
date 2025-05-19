@@ -32,6 +32,9 @@ declare_args() {
   # Trusty TEE, please refer the website listed below:
   # https://source.android.com/docs/security/features/trusty
   chip_with_trusty_os = false
+
+  # Use PSA AEAD single-part implementation.
+  chip_crypto_psa_aead_single_part = false
 }
 
 assert(
