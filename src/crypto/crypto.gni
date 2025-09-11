@@ -34,7 +34,7 @@ declare_args() {
   chip_with_trusty_os = false
 
   # Use PSA AEAD single-part implementation.
-  chip_crypto_psa_aead_single_part = false
+  chip_crypto_psa_aead_single_part = true
 }
 
 assert(
